@@ -1,0 +1,7 @@
+melakukan install json server dengan npm install -g json-server
+
+dan melakukan install npm install --save-dev json-server
+
+cara menjalankan json-server = json-server --watch contacts.json
+
+install sweet alert

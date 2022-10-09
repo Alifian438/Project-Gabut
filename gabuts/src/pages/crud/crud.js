@@ -4,20 +4,11 @@ import axios from "axios"
 import "./crud.css";
 import List from "../tampil crud/list";
 import {uid} from "uid"
+import Swal from 'sweetalert2'
+
 
 const Crud = () => {
-    const [contacts, setContacts] = useState([
-        {
-            id: 1,
-            name: "John",
-            telp: "08123123123",
-        },
-        {
-            id: 2,
-            name: "alex",
-            telp: "08124123123",
-        },
-    ]);
+    const [contacts, setContacts] = useState([]);
 
     // untuk update data (edit)
     const [isUpdate, setIsUpdate] = useState({id: null, status: false });
@@ -28,6 +19,14 @@ const Crud = () => {
         telp: "", 
     });
 
+    //untuk menampilkan fake API
+    useEffect(() => {
+         //mengambil data
+         axios.get('http://localhost:3000/contacts').then((res) => {
+            setContacts(res?.data ?? []);
+         });
+    }, []);
+
     function handleChange(e){
         let data = {...formData};
         data[e.target.name] = e.target.value;
@@ -36,7 +35,6 @@ const Crud = () => {
 
     function handleSubmit(e){
         e.preventDefault();
-        alert("oke");
         let data = [...contacts];
         // validasi
         if(formData.name === ""){
@@ -53,10 +51,33 @@ const Crud = () => {
                     contact.name = formData.name;
                     contact.telp = formData.telp;
                 }
+            });
+             //untuk merubah data di json
+            axios.put(`http://localhost:3000/contacts/${isUpdate.id}`, {name: formData.name, telp: formData.telp}).then ((res) => {
+                Swal.fire({
+                    title: 'Mantap',
+                    text: 'Data berhasil di edit',
+                    imageUrl: 'https://media.tenor.com/2roX3uxz_68AAAAM/cat-space.gif',
+                    imageWidth: 400,
+                    imageHeight: 200,
+                    imageAlt: 'Custom image',
+                  })
             }); 
         }else{
             // menambahkan contact
-            data.push({id: uid(), name: formData.name,telp: formData.telp});
+            let newData = {id: uid(), name: formData.name, telp: formData.telp}
+            data.push(newData);
+
+            axios.post('http://localhost:3000/contacts', newData).then ((res) => {
+                Swal.fire({
+                    title: 'Mantap',
+                    text: 'Data berhasil di tambahkan',
+                    imageUrl: 'https://media.tenor.com/2roX3uxz_68AAAAM/cat-space.gif',
+                    imageWidth: 400,
+                    imageHeight: 200,
+                    imageAlt: 'Custom image',
+                  })
+            })
         }
 
         setContacts(data);
@@ -77,6 +98,18 @@ const Crud = () => {
     function handleDelete(id){
         let data = [...contacts];
         let filteredData = data.filter((contact) => contact.id !== id);
+
+        axios.delete(`http://localhost:3000/contacts/${id}`).then ((res) => {
+            Swal.fire({
+                title: 'Mantap',
+                text: 'Data berhasil di hapus',
+                imageUrl: 'https://media.tenor.com/2roX3uxz_68AAAAM/cat-space.gif',
+                imageWidth: 400,
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+              })
+        }); 
+
         setContacts(filteredData);
     }
 

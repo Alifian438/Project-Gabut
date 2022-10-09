@@ -1,6 +1,7 @@
 import { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
+import Crud from "../pages/crud/crud";
 
 const Home = () => {
     const [user, setUser] = useState([])
@@ -46,6 +47,8 @@ const Home = () => {
 
             }
         </ul>
+        
+        <a href="/crud">Fitur Crud</a>
     </>
     )
 }
