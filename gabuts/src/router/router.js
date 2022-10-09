@@ -5,7 +5,7 @@ import Login from "../pages/login";
 import Nav from "./nav";
 import Post from "../component/Post";
 import Product from "../component/Product";
-
+import Crud from "../pages/crud/crud";
 
 
 function Router() {
@@ -20,6 +20,7 @@ function Router() {
                 <Route path="product" element={<Product/>}/>
             </Route>
             <Route path="/login" element={<Login/>}/>
+            <Route path="/crud" element={<Crud/>}/>
 
      
         </Routes>
